@@ -86,12 +86,12 @@ class DMCWrapper(core.Env):
                 self._env.observation_spec().values(),
                 np.float64
             )
-            
+
         self._state_space = _spec_to_box(
             self._env.observation_spec().values(),
             np.float64
         )
-        
+
         self.current_state = None
 
         # set seed
@@ -159,7 +159,8 @@ class DMCWrapper(core.Env):
         obs = self._get_obs(time_step)
         self.current_state = _flatten_obs(time_step.observation)
         extra['discount'] = time_step.discount
-        return obs, reward, done, extra
+        truncated = False # TODO: find a way to get this
+        return obs, reward,  done, truncated, extra
 
     def reset(self):
         time_step = self._env.reset()
